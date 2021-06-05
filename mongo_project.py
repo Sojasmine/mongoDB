@@ -38,7 +38,7 @@ def get_record():
         doc = coll.find_one({"first": first.lower(), "last": last.lower()})
     except:
         print("Error accessing the database")
-   
+
     if not doc:
         print("")
         print("Error! No results found.")
@@ -46,15 +46,14 @@ def get_record():
     return doc
 
 
-
 def add_record():
     print("")
-    first = input("Enter first name > ") 
-    last = input("Enter last name > ") 
-    dob = input("Enter date of birth > ") 
-    gender = input("Enter gender > ") 
-    hair_color = input("Enter hair color > ") 
-    occupation = input("Enter occupation > ") 
+    first = input("Enter first name > ")
+    last = input("Enter last name > ")
+    dob = input("Enter date of birth > ")
+    gender = input("Enter gender > ")
+    hair_color = input("Enter hair color > ")
+    occupation = input("Enter occupation > ")
     nationality = input("Enter nationality > ")
 
     new_doc = {
@@ -74,12 +73,13 @@ def add_record():
     except:
         print("Error accessing the database")
 
+
 def find_record():
     doc = get_record()
     if doc:
         print("")
-        for k,v in doc.items():
-            if k!= "_id":
+        for k, v in doc.items():
+            if k != "_id":
                 print(k.capitalize() + ": " + v.capitalize())
 
 
@@ -88,14 +88,14 @@ def edit_record():
     if doc:
         update_doc = {}
         print("")
-        for k,v in doc.items():
+        for k, v in doc.items():
             if k != "_id":
                 update_doc[k] = input(k.capitalize() + " [" + v + "] > ")
 
                 if update_doc[k] == "":
                     update_doc[k] = v
-        
-        try: 
+
+        try:
             coll.update_one(doc, {"$set": update_doc})
             print("")
             print("Document updated")
@@ -107,10 +107,10 @@ def delete_record():
     doc = get_record()
     if doc:
         print("")
-        for k,v in doc.items():
+        for k, v in doc.items():
             if k != "_id":
                 print(k.capitalize() + ": " + v.capitalize())
-        
+
         print("")
         confirmation = input("Is this the document you want to delete?\nY or N > ")
         print("")
@@ -123,9 +123,6 @@ def delete_record():
                 print("Error accessing the database")
         else:
             print("Document not deleted")
-        
-        
-
 
 
 def main_loop():
@@ -142,13 +139,11 @@ def main_loop():
         elif option == "5":
             conn.close()
             break
-        else: 
+        else:
             print("Invalid option")
         print("")
 
 
 conn = mongo_connect(MONGO_URI)
-
 coll = conn[DATABASE][COLLECTION]
-
 main_loop()
